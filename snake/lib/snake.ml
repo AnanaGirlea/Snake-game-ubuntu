@@ -39,18 +39,6 @@ let create ~length =
   }
 ;;
 
-(* Exercise 06a:
-
-   When the snake consumes an apple, we want the snake to grow over the next few time
-   steps. To implement this, we store [extensions_remaining] in the snake.
-
-   This function takes in an amount the snake should grow and should increments the
-   current value of [extensions_remaining] in the snake record.
-
-   When you've implemented this, make sure the tests for exercise 06a pass:
-
-   $ dune runtest tests/exercise06a
-*)
 let grow_over_next_steps t by_how_much =
     t.extensions_remaining <- t.extensions_remaining + by_how_much
 ;;
@@ -59,80 +47,6 @@ let head t = t.head
 let all_locations t = t.head :: t.tail
 let set_direction t direction = t.direction <- direction
 
-(* Exercise 01:
-
-   The goal of this function is to take a snake and move it forward one square.
-
-   The signature of this function is
-   {[
-     val move_forward
-       : Position.t
-       -> Position.t list
-       -> Direction.t
-       -> (Position.t * Position.t list)
-   ]}
-   A function signuature describes the arguments to a function and it's return type.  The
-   final value is the return type of the function.  All values before it are arguments to
-   the function. In this case they are as follows:
-
-   The first argument, which has a type of Position.t, represents the current head of the
-   snake.
-
-   The next argument, a Position.t list, represents the current tail of the snake. This is
-   stored in reverse order, so the first element of the list is the very end of the
-   snake's tail.
-
-   The third argument, a Direction.t, represents the direction in which the snake is
-   moving.
-
-   The thing we will return is a tuple that represent the new head of the snake along with
-   the new body of the snake.
-
-   When the snake moves forward, its head will occupy a new space, and it will vacate the
-   space that the end of its tail used to take up. In order to implement this, we want to
-   remove the very end of the snake's tail (recall that we store the snake's body in
-   reverse order), add the location of the snake's current head to the snake's body, and
-   determine the new location of the snake's head.
-
-   We've provided you with the following funtions that will help:
-
-   [Direction.next_position] is a function defined in direction.ml which takes a
-   direction and a position, and returns the position which is one square farther in the
-   given direction. (Feel free to check out the function's definition (in direction.ml)
-   and signature (in direction.mli).)
-
-   [List.tl_exn] is a function that, given a list, returns the list with the first element
-   removed. It has signature:
-   {[
-     List.tl_exn : 'a list -> 'a list
-   ]}
-
-   To declare a list of elements, you can use the following syntax:
-   {[
-     [ 1; 2; 3 ]
-   ]}
-
-   To concatenate two lists together, you can use the "@" operator. For example:
-   {[
-     let a = [ 1; 2; 3] in
-     let b = [ 4; 5; 6] in
-     a @ b
-   ]}
-   would construct the list [ 1; 2; 3; 4; 5; 6]
-
-   To see if your function works, run
-
-   $ dune runtest tests/exercise01
-
-   which will run a series of tests on your function.
-
-   If it doesn't print any output, your tests pass! If it prints output, it means your
-   function's behavior differs from what is expected. The red output is what the test
-   expected, and the green output is what the test printed with your function.
-
-   Once you have this test passing go back to the README to move on.
-*)
-
 let move_forward head tail direction =
   let new_head = Direction.next_position direction head in
   let new_tail = List.tl_exn tail in
@@ -140,111 +54,10 @@ let move_forward head tail direction =
   (new_head, new_tail @ new_end)
 ;;
 
-(* Exercise 04a:
-
-   Just like we needed to check if the head of the snake went out of bounds, we also need
-   to check if the snake collides with itself. [collides_with_self] should return true
-   if the head of the snake overlaps with any of the rest of its body.
-
-   [List.for_all] is a function you may find handy. Its signature is:
-
-   {[
-     List.for_all : 'a list -> f:('a -> bool) -> bool
-   ]}
-
-   It takes a list and a predicate, "f", and returns true if "f" applied to all of its
-   arguments is true, and false otherwise.
-
-   The syntax "f:('a -> bool)" in the signature above is used to indicate a labeled
-   argument. Labeled arguments are a handy tool for preventing mistakes. For example,
-   consider this function, which appears in board.ml(i):
-
-   {[
-     val create_unlabeled : int -> int -> t
-     let create_unlabeled height width = { height; width }
-   ]}
-
-   [create_unlabeled] takes two ints, and makes a board with those dimensions. You would call
-   this function like so:
-
-   {[
-     create_unlabeled 10 12
-   ]}
-
-   At the call side, it's very ambiguous which int is the height and which int is the
-   width, so it's very easy to supply arguments in the wrong order.
-
-   We can rewrite this function using labeled arguments:
-   {[
-     val create : height:int -> width:int -> t
-     let create ~height ~width = { height; width }
-   ]}
-
-   To call this function, we would instead write:
-
-   {[
-     create_board ~height:10 ~width:12
-   ]}
-
-   This syntax makes it very clear which argument is intended to be which.
-
-   You'll see that throughout the game, any function that is taking two arguments of the
-   same type probably uses labelled arguments to distinguish them.
-
-   Note that the labeled argument "f" in [List.for_all] is itself is a function. This is
-   pretty cool!
-
-   In OCaml, functions are values and can be passed to other functions as arguments. You
-   can also declare a function inside another function:
-
-   {[
-     let neither_is_0 x y =
-       let not_zero n =  not(n = 0) in
-       not_zero x && not_zero y
-   ]}
-
-   Creating "sub" functions like this allows us to simplify our code and prevent mistakes
-   from copying and pasting.
-
-   One hint before you get started: we have provided the function [Position.equal], which
-   is defined in position.ml. Check out position.mli for its signature and explanation.
-
-   Let's put these all together to write [collides_with_self].
-
-   To test this function, run:
-
-   $ dune runtest tests/exercise04a
-
-   You should see no output for exercise04a. Once the test passes, proceed to exercise 04b
-   in game.ml
-*)
-
 let collides_with_self t =
   not( List.for_all t.tail ~f: (fun nr1 -> not(Position.equal nr1 t.head)))
 ;;
 
-(* Exercise 06c:
-
-   Now, let's write a modified version of [move_forward] that handles the snake growing.
-
-   If [extensions_remaining] is greater than 0, then the snake should move forward without
-   removing the end of its tail, so that its overall length increases. We should also make
-   sure to update [extensions_remaining].
-
-   Like [move_forward] we should return the new head and tail of the snake.
-
-   Once you've implemented [move_forward_and_grow], let's update the [step] function below
-   to use [move_forward_and_grow] rather than [move_forward].
-
-   At this point, running
-
-   $ dune runtest tests/exercise06c
-
-   should produce no output.
-
-   You should now have a complete playable game! Make sure to build and run the game to
-   try it out. Once you're ready, return to README.mkd for exercise extensions.
-*)
 let move_forward_and_grow ({ direction; extensions_remaining; head; tail} as t) =
   if extensions_remaining > 0 then (
     t.extensions_remaining <- t.extensions_remaining - 1;
