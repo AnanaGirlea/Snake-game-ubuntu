@@ -1,0 +1,3 @@
+(library
+ (name why_ocaml_basics)
+ (libraries core))

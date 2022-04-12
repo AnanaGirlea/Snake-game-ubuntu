@@ -1,0 +1,4 @@
+profile=janestreet
+align-cases=true
+align-constructors-decl=true
+align-variants-decl=true

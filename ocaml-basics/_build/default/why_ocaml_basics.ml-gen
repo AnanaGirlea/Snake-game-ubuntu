@@ -1,0 +1,30 @@
+(** @canonical Why_ocaml_basics.Compiler_errors *)
+module Compiler_errors = Why_ocaml_basics__Compiler_errors
+
+
+(** @canonical Why_ocaml_basics.Expressions *)
+module Expressions = Why_ocaml_basics__Expressions
+
+
+(** @canonical Why_ocaml_basics.Functions *)
+module Functions = Why_ocaml_basics__Functions
+
+
+(** @canonical Why_ocaml_basics.Lists *)
+module Lists = Why_ocaml_basics__Lists
+
+
+(** @canonical Why_ocaml_basics.Matches *)
+module Matches = Why_ocaml_basics__Matches
+
+
+(** @canonical Why_ocaml_basics.Modules *)
+module Modules = Why_ocaml_basics__Modules
+
+
+(** @canonical Why_ocaml_basics.Types *)
+module Types = Why_ocaml_basics__Types
+
+
+(** @canonical Why_ocaml_basics.Unit *)
+module Unit = Why_ocaml_basics__Unit
